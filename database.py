@@ -1,7 +1,7 @@
 import sqlite3
 
-
-DATABASE = "database/siem.db"
+import os
+DATABASE = os.path.join(os.getcwd(),"siem.db")
 
 
 
