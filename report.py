@@ -3,7 +3,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DATABASE = os.path.join(BASE_DIR, "database", "siem.db")
+DATABASE = os.path.join(BASE_DIR, "siem.db")
 
 
 def generate_report():
