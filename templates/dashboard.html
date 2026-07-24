@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>MiniSIM Security Console</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+
+<div class="brand">
+
+<span>🛡️</span>
+
+<div>
+
+<h1>MiniSIM</h1>
+
+<p>Security Information & Event Monitoring Platform</p>
+
+</div>
+
+</div>
+
+
+<div class="online">
+● SYSTEM ONLINE
+</div>
+
+
+</header>
+
+
+
+
+
+<section class="hero">
+
+<h2>Real-Time Threat Monitoring Dashboard</h2>
+
+<p>
+Monitor security logs, detect threats and analyze network activity.
+</p>
+
+</section>
+
+
+
+
+
+
+<section class="stats">
+
+
+<div class="glass-card">
+
+<h3>{{logs}}</h3>
+
+<p>Total Logs</p>
+
+</div>
+
+
+
+<div class="glass-card">
+
+<h3>{{alerts}}</h3>
+
+<p>Security Alerts</p>
+
+</div>
+
+
+
+<div class="glass-card danger">
+
+<h3>{{threats}}</h3>
+
+<p>Critical Threats</p>
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<section class="panel">
+
+
+<h2>🚨 Recent Security Alerts</h2>
+
+
+
+<table>
+
+
+<tr>
+
+<th>Alert Type</th>
+
+<th>Description</th>
+
+<th>Severity</th>
+
+</tr>
+
+
+
+{% for alert in alert_data %}
+
+<tr>
+
+<td>{{alert[0]}}</td>
+
+<td>{{alert[1]}}</td>
+
+<td>
+
+<span class="badge">
+
+{{alert[2]}}
+
+</span>
+
+</td>
+
+
+</tr>
+
+{% endfor %}
+
+
+</table>
+
+
+</section>
+
+
+
+
+
+
+
+<section class="panel">
+
+
+<h2>📄 Security Report</h2>
+
+
+<p>
+Generate complete security analysis report including logs, alerts and network scan results.
+</p>
+
+
+
+<a href="/report">
+
+<button>
+
+⬇️ Download Security Report
+
+</button>
+
+</a>
+
+
+</section>
+
+
+
+
+
+
+
+<section class="panel">
+
+
+<h2>🌐 Nmap Network Scanner</h2>
+
+
+<p>
+Network discovery and open port analysis module.
+</p>
+
+
+
+<button onclick="runScan()">
+
+⚡ Start Network Scan
+
+</button>
+
+
+
+
+<table id="scanTable">
+
+
+<tr>
+
+<th>Host</th>
+
+<th>Port</th>
+
+<th>State</th>
+
+<th>Service</th>
+
+</tr>
+
+
+</table>
+
+
+</section>
+
+
+
+
+
+
+
+<script>
+
+
+function runScan(){
+
+
+fetch("/scan")
+
+.then(response=>response.json())
+
+.then(data=>{
+
+
+let table=document.getElementById("scanTable");
+
+
+
+table.innerHTML=`
+
+<tr>
+
+<th>Host</th>
+
+<th>Port</th>
+
+<th>State</th>
+
+<th>Service</th>
+
+</tr>
+
+`;
+
+
+
+for(let host in data.scan_result){
+
+
+data.scan_result[host].forEach(item=>{
+
+
+let row=table.insertRow();
+
+
+
+row.insertCell(0).innerHTML=host;
+
+row.insertCell(1).innerHTML=item.port;
+
+row.insertCell(2).innerHTML=item.state;
+
+row.insertCell(3).innerHTML=item.name;
+
+
+
+});
+
+
+}
+
+
+});
+
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>
