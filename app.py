@@ -4,6 +4,7 @@ import os
 
 from scanner import run_scan
 from report import generate_report
+from database import create_database
 
 
 # Correct static and template paths
@@ -15,9 +16,9 @@ app = Flask(
     static_folder=os.path.join(BASE_DIR, "static"),
     static_url_path="/static"
 )
+create_database()
 
-
-DATABASE = os.path.join(BASE_DIR, "database", "siem.db")
+DATABASE = os.path.join(BASE_DIR, "siem.db")
 
 
 def get_dashboard_data():
